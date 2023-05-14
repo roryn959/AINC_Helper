@@ -55,9 +55,9 @@ class BPA:
         for set in self.powerset():
             s += str(set)
             s += ', mass: '
-            s += str(round(self.mass[set], 3))
+            s += str(round(self.mass[set], 4))
             s += ', interval: '
-            s += str([round(self.belief(set), 3), round(self.plausibility(set), 3)])
+            s += str([round(self.belief(set), 4), round(self.plausibility(set), 4)])
             s += '\n'
         return s
 
@@ -77,6 +77,7 @@ def combine(m1, m2):
             mc.mass[C] += m1.mass[A] * m2.mass[B]
 
     return mc
+
 
 def combine_normalised(m1, m2):
     mc = BPA(
@@ -98,8 +99,6 @@ def combine_normalised(m1, m2):
         mc.setMass(mc.omega, 1)
         return mc
 
-    print(norm_factor)
-
     for A in m1.powerset():
         for B in m2.powerset():
             C = []
@@ -115,6 +114,13 @@ def combine_normalised(m1, m2):
 
 
 if __name__ == '__main__':
+    # IMPORTANT:
+    # --> Add tuples in the same order as they appear in omega!
+    # for example if omega = {cirrhosis, panc, jaundice}
+    # set mass with (cirrhosis, panc) and not (panc, cirrhosis)
+    # --> Add a trailing comma inside singleton tuples!
+    # for example set mass with (cirrhosis,) rather than (cirrhosis)
+
     omega = (
         'a',
         'b'
